@@ -7,9 +7,10 @@
 
       Scenario: TC_00101 User logs in with correct credentials
 
-        Given User clicks on username box
+        Given User clicks on sign in button
+        And User clicks on username box
         And User types valid user name
         And User clicks on password box
-        And User types correct password
+        And User types correct password and clicks on sign in
         Then User validates account page is opened
         And User closes the browser

@@ -21,7 +21,13 @@ public class logInStepDefs {
     homePage.loginButton.click();
 
     }
-    @Given("User clicks on username box")
+
+ @Given("User clicks on sign in button")
+ public void user_clicks_on_sign_in_button() {
+ homePage.signInButton.click();
+ }
+
+ @Given("User clicks on username box")
     public void user_clicks_on_username_box() {
     signInPage.usernameBox.click();
     }
@@ -33,9 +39,10 @@ public class logInStepDefs {
     public void user_clicks_on_password_box() {
     signInPage.passwordBox.click();
     }
-    @Given("User types correct password")
-    public void user_types_correct_password() {
+    @Given("User types correct password and clicks on sign in")
+    public void User_types_correct_password_and_clicks_on_sign_in() {
     signInPage.passwordBox.sendKeys(ConfigReader.getProperty("adminPassword"));
+    signInPage.submitButton.click();
     }
     @Then("User validates account page is opened")
     public void user_validates_account_page_is_opened() {
