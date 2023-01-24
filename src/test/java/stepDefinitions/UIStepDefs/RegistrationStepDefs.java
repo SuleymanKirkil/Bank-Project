@@ -5,6 +5,9 @@ import org.junit.Assert;
 import pages.HomePage;
 import pages.RegisterPage;
 
+import java.util.List;
+import java.util.Map;
+
 public class RegistrationStepDefs {
     RegisterPage registerPage = new RegisterPage();
     HomePage homePage = new HomePage();
@@ -68,9 +71,48 @@ public class RegistrationStepDefs {
     }
     }
     @When("User enters {string} in the {string} and clicks next box")
-    public void user_enters_in_the_and_clicks_next_box(String string, String string2) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void user_enters_in_the_and_clicks_next_box(String value, String box) {
+        switch (box) {
+            case "SSN Box" -> {
+                registerPage.ssnBox.sendKeys(value);
+                registerPage.firstnameBox.click();
+            }
+            case "Firstname Box" -> {
+                registerPage.firstnameBox.click();
+                registerPage.lastNameBox.click();
+            }
+            case "Lastname Box" -> {
+                registerPage.lastNameBox.click();
+                registerPage.addressBox.click();
+            }
+            case "Address Box" -> {
+                registerPage.addressBox.click();
+                registerPage.emailBox.click();
+            }
+            case "Phone Number" -> {
+                registerPage.mobilephoneBox.click();
+                registerPage.emailBox.click();
+            }
+            case "Username Box" -> {
+                registerPage.usernameBox.click();
+                registerPage.emailBox.click();
+            }
+            case "Email Box" -> {
+                registerPage.emailBox.click();
+                registerPage.firstPasswordBox.click();
+            }
+            case "New Password Box" -> {
+                registerPage.firstPasswordBox.click();
+                registerPage.secondPassword.click();
+            }
+            case "Password Comfirmation Box" -> {
+                registerPage.secondPassword.click();
+                registerPage.firstnameBox.click();
+            }
+            default -> {
+            }
+        }
+
     }
 
     @Then("User verifies system put {string} between digits automatically")
@@ -78,4 +120,35 @@ public class RegistrationStepDefs {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
+
+    @When("User enters valid SSN in the SSN Box and clicks next box")
+    public void user_enters_valid_ssn_in_the_ssn_box_and_clicks_next_box(io.cucumber.datatable.DataTable credentials) {
+        List<Map<String,String>> customerCredentials = credentials.asMaps(String.class,String.class);
+
+        for (Map<String,String> each : customerCredentials){
+            registerPage.ssnBox.clear();
+            registerPage.ssnBox.sendKeys(each.get("valid SSN"));
+            registerPage.firstnameBox.click();
+        }
+
+    }
+    @When("User verifies SSN is accepted")
+    public void user_verifies_ssn_is_accepted() {
+    Assert.assertTrue(registerPage.addressBox.isEnabled());
+    }
+    @When("User enters invalid SSN in the SSN Box and clicks next box")
+    public void user_enters_invalid_ssn_in_the_ssn_box_and_clicks_next_box(io.cucumber.datatable.DataTable credentials) {
+        List<Map<String,String>> customerCredentials = credentials.asMaps(String.class,String.class);
+
+        for (Map<String,String> each : customerCredentials){
+            registerPage.ssnBox.clear();
+            registerPage.ssnBox.sendKeys(each.get("Invalid SSN"));
+            registerPage.firstnameBox.click();
+        }
+    }
+    @When("User verifies invalid SSN message is displayed")
+    public void user_verifies_invalid_message_is_displayed() {
+    Assert.assertTrue(registerPage.invalidSsn.isDisplayed());
+    }
+
 }
