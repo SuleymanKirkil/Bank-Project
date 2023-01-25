@@ -128,6 +128,7 @@ public class RegistrationStepDefs {
         for (Map<String,String> each : customerCredentials){
             registerPage.ssnBox.clear();
             registerPage.ssnBox.sendKeys(each.get("valid SSN"));
+
             registerPage.firstnameBox.click();
         }
 
@@ -143,6 +144,7 @@ public class RegistrationStepDefs {
         for (Map<String,String> each : customerCredentials){
             registerPage.ssnBox.clear();
             registerPage.ssnBox.sendKeys(each.get("Invalid SSN"));
+            Assert.assertTrue(registerPage.invalidSsn.isDisplayed());
             registerPage.firstnameBox.click();
         }
     }
